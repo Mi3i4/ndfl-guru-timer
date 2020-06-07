@@ -9,38 +9,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <title>timer</title>
     <style>
-        #container-box {
-            font-family: 'Roboto', sans-serif;
-            letter-spacing: 0.5px;
-            background-color: #FAFAFA;
-            display: flex;
-            justify-content: center;
-        }
-        .heading {
-            font-size: 52px;
-            font-weight: 500;
-            text-align: center;
-            margin: 120px 0 60px 0;
-        }
-        #timer-box {
-            max-width: 900px;
-            text-align: center;
-        }
-        li {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 18px;
-            opacity: 0.7;
-            text-align: left;
-            padding-bottom: 10px;
-            line-height: 24px;
-        }
-        #timer {
-            font-size: 32px;
-            font-weight: bold;
-            padding: 10px 0 20px 0;
+        * {
+            margin: 0;
+            padding: 0;
         }
         #google-form {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
             width: 180px;
             height: 40px;
@@ -49,24 +23,117 @@
             border: 1px solid transparent;
             border-radius: 4px;
             outline: none;
-            margin-bottom: 60px;
+            box-shadow: 4px 4px 4px #525252;
         }
         #google-form:hover {
             opacity: 0.5;
             cursor: pointer;
         }
+        #line {
+            font-family: 'Roboto', sans-serif;
+            letter-spacing: 0.5px;
+            background-color: #568DCD;
+            color: #FAFAFA;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 20px 100px 20px 100px;
+        }
+        #timer {
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+        }
+        #open-modal{
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px;
+            min-width: 180px;
+            min-height: 40px;
+            background-color: #FFC107;
+            color: #525252;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            outline: none;
+            box-shadow: 4px 4px 4px #525252;
+        }
+        #open-modal:hover {
+            opacity: 0.5;
+            cursor: pointer;
+        }
+        #attention {
+            font-size: 18px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+        #discount {
+            font-weight: 700;
+        }
+        #backdrop {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+        #modal {
+            max-width: 320px;
+            background: #FAFAFA;
+            box-shadow: 5px 5px 10px 2px rgba(0, 0, 0, 0.2);
+            border: 1px solid transparent;
+            border-radius: 4px;
+            overflow-x: auto;
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+        }
+        #head {
+            font-family: 'Roboto', sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+            text-align: center;
+        }
+        #offers {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        #offers ul {
+            padding: 20px;
+        }
+        #offers li {
+            padding-bottom: 10px;
+            line-height: 24px;
+            letter-spacing: 0.5px;
+        }
+        #footer {
+            margin: 0 auto;
+        }
     </style>
 </head>
 <script type="text/javascript">
   window.onload = () => {
-    const time_end = localStorage.getItem('ndfl_guru_time_end') ?
-      localStorage.getItem('ndfl_guru_time_end') : function (){
-        const a = new Date().getTime() + (1000 * 3600 * 12);
-        localStorage.setItem('ndfl_guru_time_end', a);
-        return a;
-      }();
+    const time_end = new Date("2020-07-15T12:00:00+03:00");
+    let days, hours, minutes, seconds, discount;
 
-    let hours, minutes, seconds;
+    const open_modal = document.querySelector('#open-modal');
+    const close_modal= document.querySelector('#backdrop');
+
+    open_modal.addEventListener('click', openModal);
+    close_modal.addEventListener('click', closeModal);
+
+    function openModal() {
+        document.querySelector('#backdrop').style.display = 'flex';
+    }
+    function closeModal() {
+        document.querySelector('#backdrop').style.display = 'none';
+    }
     function timeLeft() {
       let current = new Date().getTime();
       return Math.floor((time_end - current) / 1000);
@@ -83,51 +150,52 @@
     if(timeLeft() >= 0) {
       const start = startTimer(timer);
       function timer() {
-        let time_left = timeLeft() % 3600;
-        hours = add(parseInt (time_left/320) );
-        minutes = add(parseInt (time_left / 60) );
-        seconds = add(parseInt (time_left % 60) );
+        let time_left = timeLeft();
+        days = add(parseInt(time_left/(60*60*24)));
+        discount = add(parseInt(time_left/(60*60*24)));
         if(time_left === 0) {
           stopTimer(start);
-          localStorage.setItem('ndfl_guru_timer', 'end');
-          document.querySelector('#timer-box').style.display = 'none';
-          document.querySelector('#google-form').style.display = 'none';
-          document.querySelector('#container-box').style.display = 'none';
+          document.querySelector('#line').style.display = 'none';
         }
-        document.querySelector('#timer').innerHTML = '<span>'+ hours + '</span>' + ` : ` + `<span>`+ minutes +
-          `</span>` + ` : ` + `<span>`+ seconds + `</span>`
+        document.querySelector('#timer').innerHTML = days + ` дней `;
+        document.querySelector('#discount').innerHTML = discount + `%`;
+        document.querySelector('#discount-popup').innerHTML = discount + `%`;
       }
-    } else if(localStorage.getItem('ndfl_guru_timer') === 'end') {
-      document.querySelector('#timer-box').style.display = 'none';
-      document.querySelector('#google-form').style.display = 'none';
-      document.querySelector('#container-box').style.display = 'none';
     }
   };
 </script>
 <body>
-    <div id="container-box">
-        <div id="timer-box">
-            <div>
-                <h1 class="heading">Хотите получить скидку?</h1>
+    <div id="line">
+        <div id="attention">До окончания срока уплаты налогов осталось <span id="timer"></span>, поэтому ваша скидка сейчас <span id="discount"></span></div>
+        <button id="open-modal">Получить скидку</button>
+    </div>
+    <div id="backdrop">
+        <div id="modal">
+            <div id="head">
+              <h1>Хотите скидку?</h1>
+            </div>
+            <section id="offers">
                 <ul>
-                    <li>У вас убыток? Напишите нам в чат или любой мессенджер «У меня убыток» и получите промокод
+                    <li>
+                        У вас убыток? Напишите нам в чат или любой мессенджер «У меня убыток» и получите промокод
                         на скидку в размере 30%
                     </li>
                     <li>
                         Нет убытка, но все равно хотите получить скидку?
                         Напишите нам в чат или любой мессенджер «Хочу скидку»
-                        с описанием почему именно вам она необходима и получите 20%.
+                        с описанием почему именно вам она необходима и получите скидку <span id="discount-popup"></span>
                     </li>
                     <li>
                         Скидка до 30% при ответе на 10 простых вопросов. Чем больше ответов, тем больше скидка.
-                        Мы постоянно улучшаем наш сервис и будем благодарны вам за помощь.
+                        Мы постоянно улучшаем наш сервис и будем благодарны вам за помощь
                     </li>
                 </ul>
+            </section>
+            <div id="footer">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScmq29zWPQY4WvpSrZO_kk5mV-F0Ug2Auvqr_DdmZT_YaQu4w/viewform?embedded=true" target="_blank">
+                    <button id="google-form">Пройти опрос</button>
+                </a>
             </div>
-            <div id="timer"></div>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScmq29zWPQY4WvpSrZO_kk5mV-F0Ug2Auvqr_DdmZT_YaQu4w/viewform?embedded=true" target="_blank">
-                <button id="google-form">Пройти опрос</button>
-            </a>
         </div>
     </div>
 </body>

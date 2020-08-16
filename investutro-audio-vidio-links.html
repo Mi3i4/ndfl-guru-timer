@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .content-link {
+            display: flex;
+            margin-right: 20px;
+            text-align: center;
+            align-items: center;
+        }
+        .content-link:hover {
+            opacity: 50%;
+        }
+        .content-icon-video {
+            opacity: 0.7;
+            font-size: 20px;
+            color: #8b23d2
+        }
+        .content-icon-audio {
+            opacity: 0.5;
+            font-size: 20px;
+            color: #ff008b;
+        }
+        .content-icon-text {
+            margin-left: 10px;
+        }
+        .podcast-box {
+            display: flex;
+            background-color: #dddddd;
+            padding: 10px 0 10px 0;
+        }
+    </style>
+</head>
+<body>
+<script src="https://kit.fontawesome.com/8f99816112.js" crossorigin="anonymous"></script>
+    <div class="podcast-box">
+        <a href="https://www.youtube.com/watch?v=w3ptjrjWl_k&t=127s" target="_blank">
+            <div class="content-link">
+                <span class="content-icon-video">
+                    <i class="fas fa-play-circle"></i>
+                </span>
+                <span class="content-icon-text">
+                    фрагмент видео
+                </span>
+            </div>
+        </a>
+        <a href="#call-to-action" target="_blank">
+            <div class="content-link">
+                <span class = "content-icon-audio">
+                    <i class="fas fa-podcast"></i>
+                </span>
+                <span class="content-icon-text">
+                    фрагмент аудио
+                </span>
+            </div>
+        </a>
+    </div>
+</body>
+</html>

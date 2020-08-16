@@ -98,6 +98,7 @@
             font-size: 20px;
             font-weight: 500;
             text-align: center;
+            margin-bottom: 20px;
         }
         #offers {
             font-family: 'Montserrat', sans-serif;
@@ -112,8 +113,34 @@
             line-height: 24px;
             letter-spacing: 0.5px;
         }
+        .description {
+            line-height: 24px;
+            letter-spacing: 0.5px;
+        }
+
+        #promo {
+            font-weight: 700;
+        }
+
+        #head-description {
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            font-size: 22px;
+            margin-top: 20px;
+        }
+
         #footer {
             margin: 0 auto;
+        }
+        @media screen and (max-width: 375px) {
+            #line {
+                flex-direction: column;
+                padding: 20px 40px 20px 40px;
+                text-align: center;
+            }
+            #attention {
+                margin-bottom: 20px;
+            }
         }
     </style>
 </head>
@@ -159,7 +186,6 @@
         }
         document.querySelector('#timer').innerHTML = days + ` дней `;
         document.querySelector('#discount').innerHTML = discount + `%`;
-        document.querySelector('#discount-popup').innerHTML = discount + `%`;
       }
     }
   };
@@ -172,28 +198,27 @@
     <div id="backdrop">
         <div id="modal">
             <div id="head">
-              <h1>Хотите скидку?</h1>
+              <h1>Воспользуйтесь максимальной скидкой</h1>
             </div>
             <section id="offers">
+                <div class="description">
+                    <p>Времени осталось немного, не откладывайте все на последний момент.</p>
+                    <p>Мы даём скидку, равную оставшимся дням до уплаты налога.</p>
+                    <p>Каждый день скидка будет уменьшаться на 1%.</p>
+                    <p id="head-description">Ваши действия:</p>
+                </div>
                 <ul>
                     <li>
-                        У вас убыток? Напишите нам в чат или любой мессенджер «У меня убыток» и получите промокод
-                        на скидку в размере 30%
+                        Перейдите в личный кабинет и загрузите отчеты брокера
                     </li>
                     <li>
-                        Нет убытка, но все равно хотите получить скидку?
-                        Напишите нам в чат или любой мессенджер «Хочу скидку»
-                        с описанием почему именно вам она необходима и получите скидку <span id="discount-popup"></span>
-                    </li>
-                    <li>
-                        Скидка до 30% при ответе на 10 простых вопросов. Чем больше ответов, тем больше скидка.
-                        Мы постоянно улучшаем наш сервис и будем благодарны вам за помощь
+                        Используйте промокод - <span id="promo">LOWTAX</span>
                     </li>
                 </ul>
             </section>
             <div id="footer">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLScmq29zWPQY4WvpSrZO_kk5mV-F0Ug2Auvqr_DdmZT_YaQu4w/viewform?embedded=true" target="_blank">
-                    <button id="google-form">Пройти опрос</button>
+                <a href="https://app.ndfl.guru/registration" target="_blank">
+                    <button id="google-form">Зарегистрироваться</button>
                 </a>
             </div>
         </div>

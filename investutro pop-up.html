@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <title>timer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #line {
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.5px;
+            background-color: #202020;
+            display: flex;
+            justify-content: left;
+            padding: 40px 0 0 0;
+        }
+        #open-modal{
+            font-size: 16px;
+            font-weight: bold;
+            min-width: 180px;
+            min-height: 40px;
+            background-color: #202020;
+            color: #32d8ce;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            outline: none;
+            text-decoration: underline #32d8ce;
+        }
+        #open-modal:hover {
+            opacity: 0.5;
+            cursor: pointer;
+        }
+        #backdrop {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+        #modal {
+            background: #202020;
+            box-shadow: 5px 5px 10px 2px rgba(0, 0, 0, 0.2);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            overflow-x: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        #video {
+            width: 560px;
+            height: 315px;
+        }
+        @media screen and (max-width: 375px) {
+            #video {
+                width: 300px;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<script type="text/javascript">
+  window.onload = () => {
+
+    const open_modal = document.querySelector('#open-modal');
+    const close_modal= document.querySelector('#backdrop');
+
+    open_modal.addEventListener('click', openModal);
+    close_modal.addEventListener('click', closeModal);
+
+    function openModal() {
+        document.querySelector('#backdrop').style.display = 'flex';
+    }
+    function closeModal() {
+        document.querySelector('#backdrop').style.display = 'none';
+    }
+  };
+</script>
+<body>
+    <div id="line">
+        <button id="open-modal">Видео обращение Андрея Потапова</button>
+    </div>
+    <div id="backdrop">
+        <div id="modal">
+            <section id="offers">
+                <iframe id="video" src="https://www.youtube.com/embed/qAlUFD2ZTIU" frameborder="0"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                </iframe>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
+

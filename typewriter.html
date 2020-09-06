@@ -55,28 +55,30 @@
             }
 
             let t = new TypeWritter({
+                // TODO добавить имена брокеров
                 array: ['test1', 'test2', 'test3'],
                 element: '#demo',
                 sfc: 500,
                 sfw: 2000,
             });
             t.start()
-            function foo() {
-                console.log(this)
-            }
-            const boo = () => {
-                console.log(this);
-            }
-
-            const obj = {
-                foo,
-                boo,
-                name: 'str',
-            }
-            obj.foo();
-            obj.boo();
-            // foo()
-            // boo()
+            // TODO Почистить ненужный код
+            // function foo() {
+            //     console.log(this)
+            // }
+            // const boo = () => {
+            //     console.log(this);
+            // }
+            //
+            // const obj = {
+            //     foo,
+            //     boo,
+            //     name: 'str',
+            // }
+            // obj.foo();
+            // obj.boo();
+            // // foo()
+            // // boo()
         </script>
     </body>
 </html>

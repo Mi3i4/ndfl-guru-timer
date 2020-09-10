@@ -1,5 +1,11 @@
-<div id="demo"></div>
- <script>
+<!doctype html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="typewriter" style="font-family: 'Open Sans', sans-serif; font-size: 38px; font-weight: bold;"></div>
+<script>
     class TypeWriter {
         constructor(conf) {
             this.arr = conf.array;
@@ -11,7 +17,7 @@
         start() {
             this.box.innerHTML = '';
             this.t(this.getElement())
-                .then((i) => {
+                .then(() => {
                     setTimeout(() => {
                         this.start();
                     }, this.speed_for_word);
@@ -44,9 +50,11 @@
 
     let t = new TypeWriter({
         array: ['Interactive Brokers', 'Exante', 'Freedom Finance', 'Tinkoff', 'BCS Cyprus', 'Saxo Bank'],
-        element: '#demo',
+        element: '#typewriter',
         sfc: 300,
         sfw: 2000,
     });
     t.start();
 </script>
+</body>
+</html>

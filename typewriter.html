@@ -1,84 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-    <body>
-        <h1>Typewriter</h1>
-
-        <button onclick="t()">Click me</button>
-
-        <div id="demo"></div>
-
-        <script>
-            class TypeWritter {
-                constructor(conf) {
-                    this.arr = conf.array;
-                    this.box = document.querySelector(conf.element);
-                    this.j = 0;
-                    this.speed_for_char = conf.sfc;
-                    this.speed_for_word = conf.sfw;
+<div id="demo"></div>
+ <script>
+    class TypeWriter {
+        constructor(conf) {
+            this.arr = conf.array;
+            this.box = document.querySelector(conf.element);
+            this.j = 0;
+            this.speed_for_char = conf.sfc;
+            this.speed_for_word = conf.sfw;
+        }
+        start() {
+            this.box.innerHTML = '';
+            this.t(this.getElement())
+                .then((i) => {
+                    setTimeout(() => {
+                        this.start();
+                    }, this.speed_for_word);
+                })
+        }
+        t(s) {
+            const { box, speed_for_char} = this;
+            return new Promise((resolve) => {
+                let i = 0;
+                function tw() {
+                    if (i < s.length) {
+                        box.innerHTML += s.charAt(i);
+                        i++;
+                        setTimeout(tw, speed_for_char);
+                    } else {
+                        // успешное завершение Promise
+                        resolve();
+                    }
                 }
-                start() {
-                    this.box.innerHTML = '';
-                    this.t(this.getElement())
-                        .then((i) => {
-                            setTimeout(() => {
-                                this.start();
-                            }, this.speed_for_word);
-                        })
-                }
-                t(s) {
-                    const { box, speed_for_char} = this;
-                    return new Promise((resolve) => {
-                        let i = 0;
-                        function tw() {
-                            if (i < s.length) {
-                                box.innerHTML += s.charAt(i);
-                                i++;
-                                setTimeout(tw, speed_for_char);
-                            } else {
-                                // успешное завершение Promise
-                                resolve();
-                            }
-                        }
-                        tw();
-                    })
-                }
-                getElement() {
-                    let index = this.j++;
-                    let r = this.arr[index];
-                    this.j %= 3;
-                    return r;
-                }
-            }
+                tw();
+            })
+        }
+        getElement() {
+            let index = this.j++;
+            let r = this.arr[index];
+            this.j %= 6;
+            return r;
+        }
+    }
 
-            let t = new TypeWritter({
-                // TODO добавить имена брокеров
-                array: ['test1', 'test2', 'test3'],
-                element: '#demo',
-                sfc: 500,
-                sfw: 2000,
-            });
-            t.start()
-            // TODO Почистить ненужный код
-            // function foo() {
-            //     console.log(this)
-            // }
-            // const boo = () => {
-            //     console.log(this);
-            // }
-            //
-            // const obj = {
-            //     foo,
-            //     boo,
-            //     name: 'str',
-            // }
-            // obj.foo();
-            // obj.boo();
-            // // foo()
-            // // boo()
-        </script>
-    </body>
-</html>
+    let t = new TypeWriter({
+        array: ['Interactive Brokers', 'Exante', 'Freedom Finance', 'Tinkoff', 'BCS Cyprus', 'Saxo Bank'],
+        element: '#demo',
+        sfc: 300,
+        sfw: 2000,
+    });
+    t.start();
+</script>

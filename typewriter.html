@@ -2,9 +2,21 @@
 <html lang="en">
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+    <style>
+        #typewriter {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 38px;
+            font-weight: bold;
+        }
+        @media (max-width: 375px) {
+            #typewriter {
+                font-size: 32px;
+            }
+        }
+    </style>
 </head>
 <body>
-<div id="typewriter" style="font-family: 'Open Sans', sans-serif; font-size: 38px; font-weight: bold;"></div>
+<div id="typewriter"></div>
 <script>
     class TypeWriter {
         constructor(conf) {
@@ -51,8 +63,8 @@
     let t = new TypeWriter({
         array: ['Interactive Brokers', 'Exante', 'Freedom Finance', 'Tinkoff', 'BCS Cyprus', 'Saxo Bank'],
         element: '#typewriter',
-        sfc: 300,
-        sfw: 2000,
+        sfc: 100,
+        sfw: 400,
     });
     t.start();
 </script>

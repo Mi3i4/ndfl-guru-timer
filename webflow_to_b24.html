@@ -1,10 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>3</title>
+<!--    <link rel="stylesheet" href="css-style.css">-->
 </head>
 <body>
-$END$
+<!--<h2>form</h2>-->
+<!--<form id="email-form" name="form">-->
+<!--    <input type="text" name="username" placeholder="name">-->
+<!--    <input type="email" name="email" placeholder="email">-->
+<!--    <input type="text" name="field" placeholder="field">-->
+<!--    <input type="submit" value="Send">-->
+<!--</form>-->
+<h2>vip</h2>
+<form id="vip-form" name="vip">
+    <input type="text" name="name" placeholder="name">
+    <select name="comm-type" id="select-css">
+        <option>This is a native select element</option>
+        <option>Apples</option>
+        <option>Bananas</option>
+        <option>Grapes</option>
+        <option>Oranges</option>
+    </select>
+    <input type="text" name="contact" placeholder="contact">
+    <input type="submit" value="Send">
+</form>
+<h2>curRec</h2>
+<form id="curRec-form" name="currencyRecalc">
+    <input type="text" name="name" placeholder="name">
+    <select name="comm-type" class="select-css">
+        <option>This is a native select element</option>
+        <option>Apples</option>
+        <option>Bananas</option>
+        <option>Grapes</option>
+        <option>Oranges</option>
+    </select>
+    <input type="text" name="contact" placeholder="contact">
+    <input type="submit" value="Send">
+</form>
+<h2>unitLinked</h2>
+<form id="unit-form" name="unitLinked">
+    <input type="text" name="name" placeholder="name">
+    <select name="comm-type" class="select-css">
+        <option>This is a native select element</option>
+        <option>Apples</option>
+        <option>Bananas</option>
+        <option>Grapes</option>
+        <option>Oranges</option>
+    </select>
+    <input type="text" name="contact" placeholder="contact">
+    <input type="submit" value="Send">
+</form>
+<h2>CallOrder</h2>
+<form id="callOrder-form" name="callOrder">
+    <input type="text" name="name" placeholder="name">
+    <input type="text" name="phone" placeholder="phone">
+    <input type="submit" value="Send">
+</form>
+
+<script>
+    window.onload = () => {
+
+        function sendData(e, id) {
+            const data = new FormData(e.target);
+            // const url = 'http://ndfl.guru/?utm_source=google&utm_medium=cpc&utm_campaign={network}&utm_content={creative}&utm_term={keyword}'
+            const current_url = window.location
+            let clientId
+            let utm
+
+            //Получение данных формы
+            const form_data = function () {if(id === 'vip-form' || id === 'curRec-form' || id === 'unit-form') {
+                    return {
+                        id: id,
+                        form_name: document.querySelector(`#` + id).getAttribute('data-name'),
+                        user_connect_type: document.querySelector('.select-css').value,
+                        user_name: data.get('name'),
+                        user_contact: data.get('contact')
+                    }
+                } else {
+                    return {
+                        id: id,
+                        form_name: document.querySelector(`#` + id).getAttribute('name'),
+                        user_name: data.get('name'),
+                        user_phone: data.get('phone')
+                    }
+                }
+            }();
+
+            //Получение Google clientId
+            // clientId = ga.getAll()[0].get('clientId');
+            clientId = document.cookie;
+
+            //Получение UTM-меток
+            utm = Array.from(new URL(current_url).searchParams)
+                .filter(n => n[0].startsWith('utm_'))
+                .reduce((acc, n) => ({...acc, [n[0].slice(4)]: n[1]}), {})
+
+            const data_to_send = {
+                utm: utm,
+                clientId: clientId,
+                formData: form_data
+            }
+
+            console.log(data_to_send)
+            // function send() {
+            //     const body = JSON.stringify(data_to_send)
+            //     fetch('https://portal.finoscope.tech/rest/6/hnxkl6czz0lk0570/finoscope.ndflGuruFormSubmit', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //         },
+            //         body,
+            //     }).then(
+            //         (i) => {
+            //             console.log(i);
+            //         }
+            //     )
+            //     // .catch(
+            //     //     () => {
+            //     //         document.querySelector('.success-message-2').style.display = 'none'
+            //     //         document.querySelector('.error-message-2').style.display = 'block'
+            //     //     }
+            //     // )
+            // }
+            // send();
+        }
+
+        //Создать функцию, которая при возникновении события submit, запускала sendData с нужными данными
+
+        // document.querySelector('#email-form').addEventListener('submit', e => {
+        //     e.preventDefault();
+        //     const id =  document.querySelector('#email-form').getAttribute('id')
+        //     sendData(e, id);
+        // });
+
+        document.addEventListener('submit', e => {
+            e.preventDefault();
+            const id =  document.querySelector('#vip-form').getAttribute('id')
+            sendData(e, id);
+        });
+
+        // switch (document.title){
+        //     case 'vip':
+        //         document.addEventListener('submit', e => {
+        //             e.preventDefault();
+        //             const id =  document.querySelector('#vip-form').getAttribute('id')
+        //             sendData(e, id);
+        //         });
+        //         break
+        //     case 'UnitLinked':
+        //         document.querySelector('#unit-form').addEventListener('submit', e => {
+        //             e.preventDefault();
+        //             const id =  document.querySelector('#unit-form').getAttribute('id')
+        //             sendData(e, id);
+        //         });
+        //         break
+        //     case 'CurrencyRecalc':
+        //         document.querySelector('#curRec-form').addEventListener('submit', e => {
+        //             e.preventDefault();
+        //             const id =  document.querySelector('#curRec-form').getAttribute('id')
+        //             sendData(e, id);
+        //         });
+        // }
+
+        // if(document.querySelector('.call-order-popup').style.display != 'none') {
+        //     document.querySelector('#callOrder-form').addEventListener('submit', e => {
+        //         e.preventDefault();
+        //         const id =  document.querySelector('#callOrder-form').getAttribute('id')
+        //         sendData(e, id);
+        //     });
+        // }
+    }
+</script>
+
 </body>
 </html>

@@ -14,57 +14,58 @@
     <button>Отправить</button>
 </div>
 
-<script type="text/javascript">
-    window.onload = () => {
-        localStorage.setItem('ng_exit_popup_timer', 'none');
+<!--<script type="text/javascript">-->
+<!--    window.onload = () => {-->
+<!--        localStorage.setItem('ng_exit_popup_timer', 'none');-->
 
-        const time_end = localStorage.getItem('ng_exit_popup_time_to') ?
-            localStorage.getItem('ng_exit_popup_time_to') : function (){
-                const a = new Date().getTime() + (1000*3600*24);
-                localStorage.setItem('ng_exit_popup_time_to', a);
-                return a;
-            }();
+<!--        const time_end = localStorage.getItem('ng_exit_popup_time_to') ?-->
+<!--            localStorage.getItem('ng_exit_popup_time_to') : function (){-->
+<!--                const a = new Date().getTime() + (1000*3600*24);-->
+<!--                localStorage.setItem('ng_exit_popup_time_to', a);-->
+<!--                return a;-->
+<!--            }();-->
 
-        const close_modal = document.querySelector('#close-exit-popup');
-        close_modal.addEventListener('click', closeModal);
+<!--        const close_modal = document.querySelector('#close-exit-popup');-->
+<!--        close_modal.addEventListener('click', closeModal);-->
 
-        function timeLeft() {
-            let current = new Date().getTime();
-            return Math.floor((time_end - current) / 1000);
-        }
+<!--        function timeLeft() {-->
+<!--            let current = new Date().getTime();-->
+<!--            return Math.floor((time_end - current) / 1000);-->
+<!--        }-->
 
-        function startTimer (f) {
-            return setInterval(f, 1000);
-        }
+<!--        function startTimer (f) {-->
+<!--            return setInterval(f, 1000);-->
+<!--        }-->
 
-        function stopTimer(t) {
-            clearInterval(t);
-        }
+<!--        function stopTimer(t) {-->
+<!--            clearInterval(t);-->
+<!--        }-->
 
-        function closeModal() {
-            document.querySelector('#exit-popup').style.display = 'none'
-            startTimer(timer);
-        }
+<!--        function closeModal() {-->
+<!--            document.querySelector('#exit-popup').style.display = 'none'-->
+<!--            startTimer(timer);-->
+<!--        }-->
 
-        function timer() {
-            if (timeLeft() >= 0) {
-                localStorage.setItem('ng_exit_popup_timer', 'start')
-                localStorage.setItem('time_left', timeLeft())
-            }
-            if(timeLeft() === 0) {
-                stopTimer(startTimer);
-                localStorage.clear();
-            }
-        }
+<!--        function timer() {-->
+<!--            if (timeLeft() >= 0) {-->
+<!--                localStorage.setItem('ng_exit_popup_timer', 'start')-->
+<!--                localStorage.setItem('time_left', timeLeft())-->
+<!--            }-->
+<!--            if(timeLeft() === 0) {-->
+<!--                stopTimer(startTimer);-->
+<!--                localStorage.clear();-->
+<!--            }-->
+<!--        }-->
 
-        document.addEventListener('mouseleave', function(cursor) {
-            if (localStorage.getItem('ng_exit_popup_timer') !== 'start') {
-                if (cursor.clientY < 10) {
-                    document.querySelector('#exit-popup').style.display = 'block'
-                }
-            }
-        });
-    };
-</script>
+<!--        document.addEventListener('mouseleave', function(cursor) {-->
+<!--            if (localStorage.getItem('ng_exit_popup_timer') !== 'start') {-->
+<!--                if (cursor.clientY < 10) {-->
+<!--                    document.querySelector('#exit-popup').style.display = 'block'-->
+<!--                }-->
+<!--            }-->
+<!--        });-->
+<!--    };-->
+<!--</script>-->
+<script src="exitPopup.js"></script>
 </body>
 </html>

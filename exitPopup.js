@@ -1,81 +1,54 @@
 class ExitPopup {
-    constructor() {
-        this.el = document.querySelector('#exit-popup')
-        this.closeEl = document.querySelector('#close-exit-popup')
-        this.readLocalStorage = localStorage.getItem('ng_exit_popup_timer')
-
-        this.closeEl.addEventListener('click', () => {
-            this.closeModal()
+    #el;
+    #closeEl;
+    #timer;
+    #time_end;
+    constructor(el, close_id, timer) {
+        this.#el = document.querySelector(el);
+        this.#closeEl = this.#el.querySelector(close_id);
+        this.#timer = timer;
+        this.#time_end = localStorage.getItem('ng_exit_popup_time_to');
+        document.addEventListener('mouseleave', () => {
+            this.#time_end = localStorage.getItem('ng_exit_popup_time_to');
+            if (this.#timeLeft(this.#time_end) <= 0) {
+                this.#openModal();
+            }
         })
-        this.time_end = localStorage.getItem('ng_exit_popup_time_to')
-            ?
-            localStorage.getItem('ng_exit_popup_time_to') : function (){
-                const a = new Date().getTime() + (1000*10);
-                localStorage.setItem('ng_exit_popup_time_to', a);
-                return a;
-            }();
-        this.check()
-        // if (this.readLocalStorage()) {
-        //     this.startTimer()
-        // }
-        // else {
-        //     this.openModal()
-        // }
-    }
-
-    timeLeft() {
-        let current = new Date().getTime();
-        return Math.floor((this.time_end - current) / 1000)
-    }
-
-    check() {
-        if (this.readLocalStorage !== 'start') {
-            localStorage.setItem('ng_exit_popup_timer', 'none')
-            // const a = new Date().getTime() + (1000*20)
-            // localStorage.setItem('ng_exit_popup_time_to', a)
-            localStorage.setItem('time-left', this.timeLeft())
-            // this.time_end = a
-            this.openModal();
-        } else {
-            if (this.timeLeft > 0) {
-                this.startTimer()
-            }
-            if(this.timeLeft == 0) {
-                this.stopTimer()
-            }
-            else {
-                this.openModal()
-            }
+        if (this.#time_end == undefined) {
+            this.#startTimer();
         }
     }
-
-    openModal() {
-        const el = this.el
-        document.addEventListener('mouseleave', function(cursor) {
-            if (this.readLocalStorage === 'none')  {
-                if (cursor.clientY < 10){
-                    el.style.display = 'block'
-                }
-            }
-        });
+    /**
+     *
+     * @param el {string} id попака
+     * @param close_id {string} id кнопки закрытия
+     * @param timer {number} Время жизни таймера в секундах
+     */
+    static Init(el, close_id, timer) {
+        new ExitPopup(el, close_id, timer);
     }
 
-    closeModal() {
-        const el = this.el
-        el.style.display = 'none'
-        this.startTimer()
+    #timeLeft(time_end) {
+        let current = new Date().getTime();
+        return (time_end - current);
     }
 
-    startTimer() {
-        localStorage.setItem('ng_exit_popup_timer', 'start')
-        return setInterval(this.check, 1000)
+    #openModal() {
+        this.#el.style.display = 'block';
+        this.#closeEl.addEventListener('click', () => {
+            this.#closeModal();
+        })
     }
 
-    stopTimer() {
-        clearInterval(this.startTimer())
-        localStorage.clear()
+    #closeModal() {
+        this.#el.style.display = 'none';
+        this.#startTimer();
     }
 
+    #startTimer() {
+        const a = new Date().getTime() + (1000*this.timer);
+        localStorage.setItem('ng_exit_popup_time_to', a);
+    }
 }
 
-let exitPopup = new ExitPopup()
+ExitPopup.Init('#exit-popup', '#close-exit-popup', 10);

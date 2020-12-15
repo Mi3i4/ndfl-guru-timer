@@ -51,4 +51,4 @@ class ExitPopup {
     }
 }
 
-ExitPopup.Init('#exit-popup', '#close-exit-popup', 10);
+ExitPopup.Init('#exit-popup', '#close-exit-popup', 5);

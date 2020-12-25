@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>3</title>
 <!--    <link rel="stylesheet" href="css-style.css">-->
+<!--    <script src="flow_to_b24.js"></script>-->
 </head>
 <body>
 <!--<h2>form</h2>-->
@@ -58,16 +59,23 @@
     <input type="text" name="phone" placeholder="phone">
     <input type="submit" value="Send">
 </form>
+<script>
 
+</script>
 <script>
     window.onload = () => {
+        const url = 'http://ndfl.guru/?utm_source=google&utm_medium=cpc&utm_campaign={network}&utm_content={creative}&utm_term={keyword}'
+        let utm = Array.from(new URL(url).searchParams)
+            .filter(n => n[0].startsWith('utm_'))
+            .reduce((acc, n) => ({...acc, [n[0].slice(4)]: n[1]}), {})
+        localStorage.setItem('UTM', JSON.stringify(utm));
 
         function sendData(e, id) {
             const data = new FormData(e.target);
             // const url = 'http://ndfl.guru/?utm_source=google&utm_medium=cpc&utm_campaign={network}&utm_content={creative}&utm_term={keyword}'
-            const current_url = window.location
+            // const current_url = window.location
             let clientId
-            let utm
+            let utm_from_storage
 
             //Получение данных формы
             const form_data = function () {
@@ -101,12 +109,14 @@
             clientId = document.cookie;
 
             //Получение UTM-меток
-            utm = Array.from(new URL(current_url).searchParams)
-                .filter(n => n[0].startsWith('utm_'))
-                .reduce((acc, n) => ({...acc, [n[0].slice(4)]: n[1]}), {})
+            utm_from_storage = localStorage.getItem('UTM')
+            console.log(utm_from_storage)
+            // utm = Array.from(new URL(current_url).searchParams)
+            //     .filter(n => n[0].startsWith('utm_'))
+            //     .reduce((acc, n) => ({...acc, [n[0].slice(4)]: n[1]}), {})
 
             const data_to_send = {
-                utm: utm,
+                utm: utm_from_storage,
                 clientId: clientId,
                 formData: form_data
             }
@@ -172,20 +182,20 @@
                 });
         }
 
-        if(document.querySelector('.call-order-popup').style.display !== 'none') {
-            document.querySelector('#callOrder-form').addEventListener('submit', e => {
-                e.preventDefault();
-                const id =  document.querySelector('#callOrder-form').getAttribute('id')
-                sendData(e, id);
-            });
-        }
-        if(document.querySelector('.exit-popup').style.display !== 'none') {
-            document.querySelector('#exit-popup').addEventListener('submit', e => {
-                e.preventDefault();
-                const id =  document.querySelector('#exit-popup').getAttribute('id')
-                sendData(e, id);
-            });
-        }
+        // if(document.querySelector('.call-order-popup').style.display !== 'none') {
+        //     document.querySelector('#callOrder-form').addEventListener('submit', e => {
+        //         e.preventDefault();
+        //         const id =  document.querySelector('#callOrder-form').getAttribute('id')
+        //         sendData(e, id);
+        //     });
+        // }
+        // if(document.querySelector('.exit-popup').style.display !== 'none') {
+        //     document.querySelector('#exit-popup').addEventListener('submit', e => {
+        //         e.preventDefault();
+        //         const id =  document.querySelector('#exit-popup').getAttribute('id')
+        //         sendData(e, id);
+        //     });
+        // }
     }
 </script>
 
@@ -193,13 +203,17 @@
 <!--<script>-->
 
 <!--    window.onload = () => {-->
+<!--        const url = window.location-->
+<!--        let utm = Array.from(new URL(url).searchParams)-->
+<!--            .filter(n => n[0].startsWith('utm_'))-->
+<!--            .reduce((acc, n) => ({...acc, [n[0].slice(4)]: n[1]}), {})-->
+<!--        localStorage.setItem('UTM', JSON.stringify(utm));-->
 
 <!--        function sendData(e, id) {-->
 <!--            const data = new FormData(e.target);-->
-<!--            // const url = 'http://ndfl.guru/?utm_source=google&utm_medium=cpc&utm_campaign={network}&utm_content={creative}&utm_term={keyword}'-->
 <!--            const current_url = window.location-->
 <!--            let clientId-->
-<!--            let utm-->
+<!--            let utm_from_storage-->
 
 <!--            //Получение данных формы-->
 <!--            const form_data = function () {if(id === 'vip-form' || id === 'curRec-form' || id === 'unit-form') {-->
@@ -222,6 +236,7 @@
 <!--                return {-->
 <!--                    id: id,-->
 <!--                    form_name: document.querySelector(`#` + id).getAttribute('name'),-->
+<!--                    user_brokers: data.get('brokers'),-->
 <!--                    user_email: data.get('exitPopup-email')-->
 <!--                }-->
 <!--            }-->
@@ -231,12 +246,10 @@
 <!--            clientId = ga.getAll()[0].get('clientId');-->
 
 <!--            //Получение UTM-меток-->
-<!--            utm = Array.from(new URL(current_url).searchParams)-->
-<!--                .filter(n => n[0].startsWith('utm_'))-->
-<!--                .reduce((acc, n) => ({...acc, [n[0].slice(4)]: n[1]}), {})-->
+<!--            utm_from_storage = localStorage.getItem('UTM')-->
 
 <!--            const data_to_send = {-->
-<!--                utm: utm,-->
+<!--                utm: utm_from_storage,-->
 <!--                clientId: clientId,-->
 <!--                formData: form_data-->
 <!--            }-->

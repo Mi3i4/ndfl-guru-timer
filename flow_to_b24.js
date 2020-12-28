@@ -1,12 +1,6 @@
 class Flow_to_b24 {
     constructor(forms, host) {
-        const elements = []
-        console.log(elements)
-        forms.forEach((i) => {
-            elements.push(document.querySelector(`#${ i }`))
-        })
-        console.log(elements)
-        this.forms = elements
+        this.forms = forms
         this.host = host
         this.init()
     }
@@ -121,6 +115,8 @@ class Flow_to_b24 {
             })
     }
 }
-const forms_array = ['vip-form', 'wf-form-call-order']
-const host = 'https://portal.finoscope.tech/rest/6/hnxkl6czz0lk0570/finoscope.ndflGuruFormSubmit'
-const obj = new Flow_to_b24(forms_array, host)
+
+document.addEventListener('load', () => {
+    const host = 'https://portal.finoscope.tech/rest/6/hnxkl6czz0lk0570/finoscope.ndflGuruFormSubmit'
+    const obj = new Flow_to_b24(document.querySelectorAll('form'), host)
+})

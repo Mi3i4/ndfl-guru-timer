@@ -1,18 +1,126 @@
 class Flow_to_b24 {
-    constructor() {
-
+    constructor(forms, host) {
+        const elements = []
+        console.log(elements)
+        forms.forEach((i) => {
+            elements.push(document.querySelector(`#${ i }`))
+        })
+        console.log(elements)
+        this.forms = elements
+        this.host = host
+        this.init()
     }
 
-    e_log() {
-        document.addEventListener('submit', (e) => {
-            const elem = e.target
-            console.log(elem)
-            const x = elem.closest(window.document)
-            console.log(x)
-            console.log(e);
+    init() {
+        this.forms.forEach((i) => {
+            i.addEventListener('submit', (e) => {
+                e.preventDefault()
+                this.sendToB24(e)
+            })
         })
     }
-}
 
-const obj = new Flow_to_b24()
-console.log(obj.e_log());
+    //Установка cookie
+   setCookie(name, value, options = {}) {
+        options = {
+            path: '/',
+            ...options
+        }
+        if (options.expires instanceof Date) {
+            options.expires = options.expires.toUTCString();
+        }
+        let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+        for (let optionKey in options) {
+            updatedCookie += "; " + optionKey;
+            let optionValue = options[optionKey];
+            if (optionValue !== true) {
+                updatedCookie += "=" + optionValue;
+            }
+        }
+        document.cookie = updatedCookie;
+    }
+    //Получение cookie
+    getCookie(name) {
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+    //Получение UTM из URL
+    getUTMFromUrl() {
+        const url = window.location
+        // const url = 'http://ndfl.guru/?utm_source=yandex&utm_medium=cpc&utm_campaign=%D0%BF%D0%BE%D0%B8%D1%81%D0%BA&utm_content=1234&utm_term=%D0%B4%D0%B5%D0%BA%D0%BB%D0%B0%D1%80%D0%B0%D1%86%D0%B8%D1%8F+3+%D0%BD%D0%B4%D1%84%D0%BB'
+        let utm_native = Array.from(new URL(url).searchParams)
+            .filter(n => n[0].startsWith('utm_'))
+        if(utm_native.length === 0) return undefined
+        const utm = utm_native.reduce((acc, n) => ({...acc, [n[0].slice(4)]: n[1]}), {})
+        this.setCookie('NG-UTM', JSON.stringify(utm))
+        return JSON.stringify(utm)
+    }
+    //Получение UTM из Cookie
+    getUtmFromCookie() {
+       return this.getCookie('NG-UTM')
+    }
+    //Получение UTM
+    getUTM() {
+        const getUTMFromUrl = this.getUTMFromUrl()
+        if(getUTMFromUrl == undefined) {
+            return this.getUtmFromCookie()
+        }
+        return getUTMFromUrl
+    }
+    //Получение данных формы
+    getFormData(e) {
+        let data = new FormData(e.target)
+        if (e.target.id === 'vip-form' || e.target.id === 'curRec-form' || e.target.id === 'unit-form') {
+            return {
+                id: e.target.id,
+                form_name: e.target.dataset.name,
+                user_connect_type: data.get('comm-type'),
+                user_name: data.get('user-name'),
+                user_contact: data.get('contact')
+            }
+        } else if (e.target.id === 'wf-form-call-order'){
+            return {
+                id: e.target.id,
+                form_name: e.target.dataset.name,
+                user_name: data.get('name'),
+                user_phone: data.get('phone')
+            }
+        } else {
+            return {
+                id: e.target.id,
+                form_name: e.target.dataset.name,
+                brokers: data.get('brokers'),
+                user_email: data.get('exitPopup-email')
+            }
+        }
+    }
+    getGoogleClientId() {
+        // clientId = ga.getAll()[0].get('clientId')
+        const clientId = document.cookie
+        return clientId;
+    }
+    sendToB24(e) {
+        const data_to_send = {
+            utm: this.getUTM(),
+            clientId: this.getGoogleClientId(),
+            formData: this.getFormData(e),
+        }
+        console.log(data_to_send);
+        const body = JSON.stringify(data_to_send)
+        fetch(this.host, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body,
+        }).then(
+            (i) => {
+                console.log(i);
+            })
+    }
+}
+const forms_array = ['vip-form', 'wf-form-call-order']
+const host = 'https://portal.finoscope.tech/rest/6/hnxkl6czz0lk0570/finoscope.ndflGuruFormSubmit'
+const obj = new Flow_to_b24(forms_array, host)

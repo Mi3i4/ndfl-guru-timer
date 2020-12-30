@@ -2,6 +2,7 @@ class Flow_to_b24 {
     constructor(forms, host) {
         this.forms = forms
         this.host = host
+        this.setCookie('NG-UTM', this.getUTMFromUrl())
         this.init()
     }
 
@@ -78,8 +79,8 @@ class Flow_to_b24 {
             return {
                 id: e.target.id,
                 form_name: e.target.dataset.name,
-                user_name: data.get('name'),
-                user_phone: data.get('phone')
+                user_name: data.get('user-name'),
+                user_phone: data.get('user-phone')
             }
         } else {
             return {
@@ -91,9 +92,8 @@ class Flow_to_b24 {
         }
     }
     getGoogleClientId() {
-        // clientId = ga.getAll()[0].get('clientId')
-        const clientId = document.cookie
-        return clientId;
+        return ga.getAll()[0].get('clientId')
+        // const clientId = document.cookie
     }
     sendToB24(e) {
         const data_to_send = {
@@ -101,7 +101,6 @@ class Flow_to_b24 {
             clientId: this.getGoogleClientId(),
             formData: this.getFormData(e),
         }
-        console.log(data_to_send);
         const body = JSON.stringify(data_to_send)
         fetch(this.host, {
             method: 'POST',
@@ -116,7 +115,7 @@ class Flow_to_b24 {
     }
 }
 
-document.addEventListener('load', () => {
+window.addEventListener('load', () => {
     const host = 'https://portal.finoscope.tech/rest/6/hnxkl6czz0lk0570/finoscope.ndflGuruFormSubmit'
-    const obj = new Flow_to_b24(document.querySelectorAll('form'), host)
+    const obj = new Flow_to_b24(document.querySelectorAll(`form`), host)
 })

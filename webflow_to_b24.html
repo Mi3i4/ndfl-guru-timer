@@ -53,14 +53,22 @@
 <!--    <input type="text" name="contact" placeholder="contact">-->
 <!--    <input type="submit" value="Send">-->
 <!--</form>-->
-<h2>CallOrder</h2>
-<form id="wf-form-call-order" data-name="callOrder">
-    <input type="text" name="name" placeholder="name">
-    <input type="text" name="phone" placeholder="phone">
-    <input type="submit" value="Send">
-</form>
-<script src="flow_to_b24.js"></script>
+<button id="open-close">CallOrder</button>
+<div id="modal" style="display: none">
+    <form id="wf-form-call-order" data-name="callOrder">
+        <input type="text" name="name" placeholder="name">
+        <input type="text" name="phone" placeholder="phone">
+        <input type="submit" value="Send">
+    </form>
+</div>
 
+<script src="flow_to_b24.js"></script>
+<script>
+        document.querySelector('#open-close').onclick = function() {
+            let el = document.querySelector('#modal');
+            el.style.display === 'none' ? el.style.display = 'initial' : el.style.display = 'none';
+        }
+</script>
 <!--<script>-->
 <!--    window.onload = () => {-->
 <!--        const url = 'http://ndfl.guru/?utm_source=yandex&utm_medium=cpc&utm_campaign=%D0%BF%D0%BE%D0%B8%D1%81%D0%BA&utm_content=1234&utm_term=%D0%B4%D0%B5%D0%BA%D0%BB%D0%B0%D1%80%D0%B0%D1%86%D0%B8%D1%8F+3+%D0%BD%D0%B4%D1%84%D0%BB'-->

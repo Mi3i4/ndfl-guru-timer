@@ -54,7 +54,10 @@ class Flow_to_b24 {
     }
     //Получение UTM из Cookie
     getUtmFromCookie() {
-       return JSON.parse(this.getCookie('NG-UTM'))
+        if(this.getCookie('NG-UTM')){
+            return JSON.parse(this.getCookie('NG-UTM'))
+        }
+        return null
     }
     //Получение UTM
     getUTM() {

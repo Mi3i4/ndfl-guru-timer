@@ -2,7 +2,7 @@ class Flow_to_b24 {
     constructor(forms, host) {
         this.forms = forms
         this.host = host
-        this.setCookie('NG-UTM', this.getUTMFromUrl())
+        this.getUTM()
         this.init()
     }
 
@@ -54,7 +54,7 @@ class Flow_to_b24 {
     }
     //Получение UTM из Cookie
     getUtmFromCookie() {
-       return this.getCookie('NG-UTM')
+       return JSON.parse(this.getCookie('NG-UTM'))
     }
     //Получение UTM
     getUTM() {

@@ -43,8 +43,8 @@ class Flow_to_b24 {
     }
     //Получение UTM из URL
     getUTMFromUrl() {
-        const url = window.location
-        // const url = 'http://ndfl.guru/?utm_source=yandex&utm_medium=cpc&utm_campaign=%D0%BF%D0%BE%D0%B8%D1%81%D0%BA&utm_content=1234&utm_term=%D0%B4%D0%B5%D0%BA%D0%BB%D0%B0%D1%80%D0%B0%D1%86%D0%B8%D1%8F+3+%D0%BD%D0%B4%D1%84%D0%BB'
+        // const url = window.location
+        const url = 'http://ndfl.guru/?utm_source=yandex&utm_medium=cpc&utm_campaign=%D0%BF%D0%BE%D0%B8%D1%81%D0%BA&utm_content=1234&utm_term=%D0%B4%D0%B5%D0%BA%D0%BB%D0%B0%D1%80%D0%B0%D1%86%D0%B8%D1%8F+3+%D0%BD%D0%B4%D1%84%D0%BB'
         let utm_native = Array.from(new URL(url).searchParams)
             .filter(n => n[0].startsWith('utm_'))
         if(utm_native.length === 0) return undefined
@@ -55,9 +55,9 @@ class Flow_to_b24 {
     //Получение UTM из Cookie
     getUtmFromCookie() {
         if(this.getCookie('NG-UTM')){
-            return JSON.parse(this.getCookie('NG-UTM'))
+            return this.getCookie('NG-UTM')
         }
-        return null
+        return {}
     }
     //Получение UTM
     getUTM() {
@@ -95,12 +95,13 @@ class Flow_to_b24 {
         }
     }
     getGoogleClientId() {
-        return ga.getAll()[0].get('clientId')
-        // const clientId = document.cookie
+        // return ga.getAll()[0].get('clientId')
+        const clientId = document.cookie
+        return clientId
     }
     sendToB24(e) {
         const data_to_send = {
-            utm: this.getUTM(),
+            utm: JSON.parse(this.getUTM()),
             clientId: this.getGoogleClientId(),
             formData: this.getFormData(e),
         }

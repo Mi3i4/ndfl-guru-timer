@@ -8,11 +8,34 @@ class Flow_to_b24 {
 
     init() {
         this.forms.forEach((i) => {
+            amplitude.getInstance().logEvent('visit_ndfl.guru')
             i.addEventListener('submit', (e) => {
                 e.preventDefault()
                 this.sendToB24(e)
+                this.toAmplitude(e)
             })
         })
+    }
+
+    //Amplitude
+    toAmplitude(e) {
+        switch (e.target.id) {
+            case 'wf-form-call-order':
+                amplitude.getInstance().logEvent('form_call_order')
+                break
+            case 'exitPopup':
+                amplitude.getInstance().logEvent('form_exit_popup')
+                break
+            case 'vip-form':
+                amplitude.getInstance().logEvent('form_pers_consult')
+                break
+            case 'unit-form':
+                amplitude.getInstance().logEvent('form_unit_linked')
+                break
+            case 'curRec-form':
+                amplitude.getInstance().logEvent('form_valut_per')
+                break
+        }
     }
 
     //Установка cookie
@@ -43,8 +66,8 @@ class Flow_to_b24 {
     }
     //Получение UTM из URL
     getUTMFromUrl() {
-        // const url = window.location
-        const url = 'http://ndfl.guru/?utm_source=yandex&utm_medium=cpc&utm_campaign=%D0%BF%D0%BE%D0%B8%D1%81%D0%BA&utm_content=1234&utm_term=%D0%B4%D0%B5%D0%BA%D0%BB%D0%B0%D1%80%D0%B0%D1%86%D0%B8%D1%8F+3+%D0%BD%D0%B4%D1%84%D0%BB'
+        const url = window.location
+        // const url = 'http://ndfl.guru/?utm_source=yandex&utm_medium=cpc&utm_campaign=%D0%BF%D0%BE%D0%B8%D1%81%D0%BA&utm_content=1234&utm_term=%D0%B4%D0%B5%D0%BA%D0%BB%D0%B0%D1%80%D0%B0%D1%86%D0%B8%D1%8F+3+%D0%BD%D0%B4%D1%84%D0%BB'
         let utm_native = Array.from(new URL(url).searchParams)
             .filter(n => n[0].startsWith('utm_'))
         if(utm_native.length === 0) return undefined

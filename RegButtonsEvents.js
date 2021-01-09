@@ -25,6 +25,9 @@ class RegButtonsEvents {
             case 'offer-tariff-button':
                 amplitude.getInstance().logEvent('click-offer-tariff-button')
                 break
+            case 'menu-button':
+                amplitude.getInstance().logEvent('click-menu-button')
+                break
         }
     }
 }

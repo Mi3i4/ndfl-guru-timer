@@ -9,9 +9,16 @@ class RegButtonsEvents {
         el.forEach(i => i.addEventListener('click', (e) => {
             e.preventDefault()
             this.sendToAmplitude(e);
-            window.open(url, '_blank');
+            this.utm = this.getCookie('NG-UTM')
+            window.open(url + `/?`+ this.utm, '_blank');
             window.focus();
         }))
+    }
+    getCookie(name) {
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
     }
 
     sendToAmplitude(e) {
@@ -35,3 +42,4 @@ window.addEventListener('load', () => {
     const url = 'https://app.ndfl.guru/registration'
     const obj = new RegButtonsEvents(document.querySelectorAll('a'), url)
 })
+

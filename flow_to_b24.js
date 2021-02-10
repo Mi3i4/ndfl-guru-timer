@@ -8,7 +8,7 @@ class Flow_to_b24 {
 
     init() {
         this.forms.forEach((i) => {
-            amplitude.getInstance().logEvent('visit_ndfl.guru')
+            // amplitude.getInstance().logEvent('visit_ndfl.guru')
             i.addEventListener('submit', (e) => {
                 e.preventDefault()
                 this.sendToB24(e)
@@ -21,19 +21,19 @@ class Flow_to_b24 {
     toAmplitude(e) {
         switch (e.target.id) {
             case 'wf-form-call-order':
-                amplitude.getInstance().logEvent('form_call_order')
+                // amplitude.getInstance().logEvent('form_call_order')
                 break
             case 'exitPopup':
-                amplitude.getInstance().logEvent('form_exit_popup')
+                // amplitude.getInstance().logEvent('form_exit_popup')
                 break
             case 'vip-form':
-                amplitude.getInstance().logEvent('form_pers_consult')
+                // amplitude.getInstance().logEvent('form_pers_consult')
                 break
             case 'unit-form':
-                amplitude.getInstance().logEvent('form_unit_linked')
+                // amplitude.getInstance().logEvent('form_unit_linked')
                 break
             case 'curRec-form':
-                amplitude.getInstance().logEvent('form_valut_per')
+                // amplitude.getInstance().logEvent('form_valut_per')
                 break
         }
     }
@@ -129,16 +129,17 @@ class Flow_to_b24 {
             formData: this.getFormData(e),
         }
         const body = JSON.stringify(data_to_send)
-        fetch(this.host, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body,
-        }).then(
-            (i) => {
-                console.log(i);
-            })
+        console.log(body)
+        // fetch(this.host, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body,
+        // }).then(
+        //     (i) => {
+        //         console.log(i);
+        //     })
     }
 }
 

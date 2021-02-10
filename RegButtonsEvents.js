@@ -9,11 +9,29 @@ class RegButtonsEvents {
         el.forEach(i => i.addEventListener('click', (e) => {
             e.preventDefault()
             this.sendToAmplitude(e);
-            this.utm = this.getCookie('NG-UTM')
-            window.open(url + `/?`+ this.utm, '_blank');
+            console.log(this.setUtmForService())
+            window.open(url + this.setUtmForService(), '_blank');
             window.focus();
         }))
     }
+    setUtmForService() {
+        const utm = this.getCookie('NG-UTM')
+        const goo_cId = ga.getAll()[0].get('clientId')
+        const url_data = {
+            utm,
+            goo_cId,
+        }
+        let res_url = '?'
+        Object.keys(url_data).forEach((i, index) => {
+            if (index === Object.keys(url_data).length -1) {
+                res_url += `${i} = ${url_data[i]}`
+            }else {
+                res_url += `${i} = ${url_data[i]}&`
+            }
+        })
+        return res_url
+    }
+
     getCookie(name) {
         let matches = document.cookie.match(new RegExp(
             "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
@@ -42,4 +60,3 @@ window.addEventListener('load', () => {
     const url = 'https://app.ndfl.guru/registration'
     const obj = new RegButtonsEvents(document.querySelectorAll('a'), url)
 })
-

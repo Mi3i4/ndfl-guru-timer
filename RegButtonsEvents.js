@@ -9,7 +9,7 @@ class RegButtonsEvents {
         el.forEach(i => i.addEventListener('click', (e) => {
             e.preventDefault()
             this.sendToAmplitude(e);
-            console.log(this.setUtmForService())
+            // console.log(this.setUtmForService())
             window.open(url + this.setUtmForService(), '_blank');
             window.focus();
         }))
@@ -42,16 +42,52 @@ class RegButtonsEvents {
     sendToAmplitude(e) {
         switch (e.target.id) {
             case 'main-button':
-                amplitude.getInstance().logEvent('click-main-button')
+                amplitude.getInstance().logEvent('click_create_declaration')
+                gtag('event', 'click_create_declaration', { 'event_category': 'browse' });
                 break
             case 'offer-ndfl-button':
-                amplitude.getInstance().logEvent('click-offer-ndfl-button')
+                amplitude.getInstance().logEvent('click_create_declaration_offer_ndfl')
+                gtag('event', 'click_create_declaration_offer_ndfl', { 'event_category': 'browse' })
                 break
             case 'offer-tariff-button':
-                amplitude.getInstance().logEvent('click-offer-tariff-button')
+                amplitude.getInstance().logEvent('click_offer_tariff_button')
+                gtag('event', 'click_offer_tariff_button', { 'event_category': 'browse' })
+                break
+            case '3ndfl_details':
+                amplitude.getInstance().logEvent('click_3ndfl_details_button')
+                gtag('event', 'click_3ndfl_details_button', { 'event_category': 'browse' })
+                break
+            case 'personal_details':
+                amplitude.getInstance().logEvent('click_personal_details_button')
+                gtag('event', 'click_personal_details_button', { 'event_category': 'browse' })
+                break
+            case 'unit_linked_details':
+                amplitude.getInstance().logEvent('click_unit_linked_details_button')
+                gtag('event', 'click_unit_linked_details_button', { 'event_category': 'browse' })
+                break
+            case 'currency_details':
+                amplitude.getInstance().logEvent('click_currency_details_details_button')
+                gtag('event', 'click_currency_details_button', { 'event_category': 'browse' })
+                break
+            case 'kik_details':
+                amplitude.getInstance().logEvent('click_kik_details_button')
+                gtag('event', 'click_kik_details_button', { 'event_category': 'browse' })
+                break
+            case 'example_main':
+                amplitude.getInstance().logEvent('click_example_main_button')
+                gtag('event', 'click_example_main_button', { 'event_category': 'browse' })
+                break
+            case 'example_3ndfl':
+                amplitude.getInstance().logEvent('click_example_3ndfl_button')
+                gtag('event', 'click_example_3ndfl_button', { 'event_category': 'browse' })
+                break
+            case 'help_button':
+                amplitude.getInstance().logEvent('click_help_button_button')
+                gtag('event', 'click_help_button', { 'event_category': 'browse' })
                 break
             case 'menu-button':
                 amplitude.getInstance().logEvent('click-menu-button')
+                gtag('event', 'click-menu-button', { 'event_category': 'browse' })
                 break
         }
     }

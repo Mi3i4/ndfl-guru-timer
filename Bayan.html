@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #byan_collapse {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #byan_collapse:hover {
+            opacity: .5;
+            cursor: pointer;
+        }
+        #bayan_text {
+            transition: 1s;
+        }
+    </style>
+</head>
+<body>
+<div id="bayan_block">
+    <div id="byan_collapse">
+        <div>
+            <h4>Какой-то заголовок</h4>
+        </div>
+        <div>
+            <img id="plus" src="https://uploads-ssl.webflow.com/5f29102106b858d1779bf113/5f5b66a9cd00b622c379dc6f_icons8-plus-100.png" width="40px">
+        </div>
+    </div>
+    <div id="bayan_text">
+        <p>
+            is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+            standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
+            it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
+            typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
+            sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
+            PageMaker including versions of Lorem Ipsum.
+        </p>
+    </div>
+</div>
+<script>
+    document.querySelector('#bayan_text').style.display = 'none'
+    document.querySelector('#plus').style.transform = 'rotate(0deg)'
+    document.addEventListener('click', () => {
+        if (document.querySelector('#bayan_text').style.display === 'none') {
+            document.querySelector('#bayan_text').style.display = 'block'
+            document.querySelector('#plus').style.transform = 'rotate(45deg)'
+        } else {
+            document.querySelector('#bayan_text').style.display = 'none'
+            document.querySelector('#plus').style.transform = 'rotate(0deg)'
+        }
+    })
+</script>
+</body>
+</html>
